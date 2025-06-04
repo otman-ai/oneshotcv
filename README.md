@@ -60,7 +60,7 @@ bottom-left, bottom-center, right-center, left-center
 
 
 ## © license
-The core of Inference is licensed under Apache 2.0.
+The core of Oneshotcv is licensed under Apache 2.0.
 
 ## Contribution
 We would love your input to improve OneShotCv! 🙏
