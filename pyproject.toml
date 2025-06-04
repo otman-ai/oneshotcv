@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=77.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oneshotcv"
+version = "0.1"
+description = "OneShotCV is a library for a simplifies visual design and rendering of computer vision tasks such as drawing bounding boxes, masks, labels, etc"
+authors = [
+    {name = "Otman", email = "otmanheddouchai@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pillow",
+    "opencv-python",
+    "numpy",
+    "pytest",
+]
+license = "MIT AND (Apache-2.0 OR BSD-2-Clause)"
+license-files = [
+    "LICENSE",
+]
+[project.urls]
+"Homepage" = "https://github.com/otman-ai/oneshotcv"
+[tool.setuptools.packages.find]
+where = ["."]  # list of folders that contain the packages (["."] by default)
+include = ["oneshotcv"]  # package names should match these glob patterns (["*"] by default)
+exclude = []  # exclude packages matching these glob patterns (empty by default)
+namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
