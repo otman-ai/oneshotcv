@@ -41,9 +41,9 @@ new_image = Draw.add_text(image, "Hi this is text",
 ![Image with xl text using OneShotCV](assets/image_with_top_left__xl_text.png)
 
 ## Features :
-- Draw a beautiful box with its label around an object in a single line without frustriting with the parameters of opencv or Pillow
-- Predifined colors to choose from 
-- add text to the image in a dynamic way , no hardcoded size or position
+- Draw a beautiful box with its label around an object in a single line without frustrating with the parameters of opencv or Pillow
+- Pre-defined colors to choose from 
+- add text to the image in a dynamic way , no hard coded size or position
 
 ## Milestone :
 - [X] Make the repo installable as python package
