@@ -43,6 +43,7 @@ new_image = Draw.add_text(image, "Hi this is text",
 ## Features :
 - Draw a beautiful box with its label around an object in a signle line without frustriting with the parameters of opencv or Pillow
 - Predifined colors to choose from 
+- add text to the image in a dynamic way , no hardcode size or position
 
 ## Milestone :
 - [X] Make the repo installable as python package
