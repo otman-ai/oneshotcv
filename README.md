@@ -12,6 +12,7 @@ pip install git+https://github.com/otman-ai/oneshotcv.git
 ## Usage :
 After installation you can import the package and start using it
 
+You can add box with its label
 ```
 from oneshotcv import Draw
 from PIL import Image
@@ -29,6 +30,16 @@ new_image.save("assets/image_with_bbox.png")
 ```
 ![Image with bounding box using OneShotCV](assets/image_with_bbox.png)
 
+Or just casual text
+```
+new_image = Draw.add_text(image, "Hi this is text", 
+                          position="top-left", 
+                          color="white",
+                          size="xl" # extra-large
+                          )
+```
+![Image with xl text using OneShotCV](assets/image_with_top_left__xl_text.png)
+
 ## Features :
 - Draw a beautiful box with its label around an object in a signle line without frustriting with the parameters of opencv or Pillow
 - Predifined colors to choose from 
@@ -39,9 +50,12 @@ new_image.save("assets/image_with_bbox.png")
 - [X] draw box
 - [X] add text as label
 - [X] add predefined colors
-- [ ] Option to make the box round
+- [X] Add casual text with dynamic position
+    - center, top-left, top-right, top-center, bottom-right, 
+bottom-left, bottom-center, right-center, left-center
+- [X] Support dynamic text size
 - [ ] Support multiple fonts
-- [ ] Add casual text with dynamic position
+- [ ] Support mask with overlay options
 
 
 ## © license
