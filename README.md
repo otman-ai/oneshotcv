@@ -15,9 +15,8 @@ After installation you can import the package and start using it
 You can add box with its label
 ```python
 from oneshotcv import Draw
-from PIL import Image
 
-image = Image.open("assets/image.jpg")
+image = cv2.imread("assets/image.jpg")
 bbox  = (100, 100, 400, 400)
 # draw bbox 
 new_image = Draw.box(bbox, 
@@ -26,7 +25,7 @@ new_image = Draw.box(bbox,
                     overlayAlpha=50 # in range of 0-255
                     )
 # save the image
-new_image.save("assets/image_with_bbox.png")
+cv2.imwrite("assets/image_with_bbox.png", new_image)
 ```
 ![Image with bounding box using OneShotCV](assets/image_with_bbox.png)
 
@@ -39,6 +38,23 @@ new_image = Draw.add_text(image, "Hi this is text",
                           )
 ```
 ![Image with xl text using OneShotCV](assets/image_with_top_left__xl_text.png)
+
+Or even a mask
+```python
+from oneshotcv import Draw
+import cv2
+
+image = cv2.imread("assets/dog.jpg")
+mask = cv2.imread("assets/mask.png",  cv2.IMREAD_GRAYSCALE)
+
+new_image = Draw.add_mask(image=image,
+                        color="pink",
+                        mask=mask)
+
+
+cv2.imwrite('assets/mask_output.jpg', new_image)
+```
+![Image with mask using OneShotCV](assets/mask_output.jpg)
 
 ## Features :
 - Draw a beautiful box with its label around an object in a single line without frustrating with the parameters of opencv or Pillow
@@ -55,8 +71,8 @@ new_image = Draw.add_text(image, "Hi this is text",
     - center, top-left, top-right, top-center, bottom-right, 
 bottom-left, bottom-center, right-center, left-center
 - [X] Support dynamic text size
-- [ ] Support multiple fonts
-- [ ] Support mask with overlay option
+- [X] Support multiple fonts
+- [X] Support mask with overlay option
 
 
 ## © license

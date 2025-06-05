@@ -9,14 +9,17 @@ DEFAULT_COLORS = {
     }
 
 DEFAULT_FONTS = {
-    "arial":"fonts/ARIAL.TTF"
+    "arial":"fonts/arial.ttf",
+    "mont":"fonts/mont.otf",
+    "nexa":"fonts/nexa.ttf",
+    "coolvetica":"fonts/coolvetica.otf"
 }
 
 DEFAULT_POSITIONS_FACTORS = {
-    "top":0.1,
-    "bottom":0.9,
-    "left":0.1,
-    "right":0.9
+    "top":0.05,
+    "bottom":0.95,
+    "left":0.05,
+    "right":0.95
 }
 
 DEFAULT_POSITIONS = ["center", 

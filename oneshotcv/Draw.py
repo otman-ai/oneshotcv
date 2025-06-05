@@ -1,4 +1,8 @@
+import PIL.Image
+import PIL.ImageMode
 import cv2
+import os
+import PIL
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 from typing import Union
@@ -7,38 +11,96 @@ from .palette import (DEFAULT_COLORS, DEFAULT_FONTS,
                       DEFAULT_POSITIONS, DEFAULT_POSITIONS_FACTORS,
                       DEFAULT_SIZES, DEFAULT_SIZE_FACTORS)
 
+
+
+# Draw mask
+def add_mask(
+         image: Union[Image.Image, np.ndarray],
+         mask: Union[np.ndarray],
+         color: Union[str, tuple] = DEFAULT_COLORS["blue"],
+         opacity:Union[int, float] = 0.5
+         ) -> np.ndarray:
+    """Draw mask in the image
+
+    Parametres
+    ----------
+    image: nd array in BGR format.
+    mask: 2D numpy array 255 values for the target pixels and rest 0
+    color: string from DEFAULT_COLORS or RGB tuple .
+    opacity: the opacity of the overlay color inside the rectangle between 0-1 .
+
+    Returns
+    ------
+    image: nd array image in (w, h, c) format
+    """
+    # change image type to array
+    output = image.copy()
+    if type(output) != np.ndarray:
+        raise Exception("image arg is not numpy array")
+    # get the color
+    color_overlay = color
+    # check if the color is key 
+    if type(color) == str:
+        # get the color value using the key color
+        color_overlay = DEFAULT_COLORS[color]
+    # opacity error handling
+    if not 0 <= opacity <= 1:
+        raise Exception(f"Opacity with value {opacity} is nto between 0 and 1")
+    # create a color overlay image
+    color_overlay_img = np.zeros_like(image, dtype=np.uint8)
+    color_overlay_img[:, :] = color_overlay
+
+    # apply the mask to the color_overlay_img
+    colored_mask = cv2.bitwise_and(color_overlay_img, 
+                                   color_overlay_img, 
+                                   mask=mask)
+
+    # Blend the colored_mask to the image
+    mask_indices = mask.astype(bool) # make the mask bool
+    output[mask_indices] = cv2.addWeighted(image[mask_indices], 
+                                           1 - opacity, 
+                                           colored_mask[mask_indices], 
+                                           opacity, 
+                                           0)
+    return output
+
+
 # Draw text
 def add_text(
-         image: Image,
+         image:np.ndarray,
          text: str ="Text",
          position: Union[tuple, str] = DEFAULT_POSITIONS[0],
          color: Union[str, tuple] = DEFAULT_COLORS["white"],
-         fontPath: str = DEFAULT_FONTS["arial"],
+         font: str = DEFAULT_FONTS["arial"],
          size: Union[str, int] = DEFAULT_SIZES[2]
          ):
     """Draw text in the image
 
     Parametres
     ----------
-    image: PIL image.
+    image: nd array .
     text: string text to draw in the image .
     position: tuple in the format of (x, y) , represent the position in pixels .
     color: string from DEFAULT_COLORS or RGB tuple .
-    fontPath: string from DEFAULT_FONTS or custom font path .
+    font: string from DEFAULT_FONTS or custom font path .
     size: The size of the text , either integer value or string from DEFAULT_SIZES.
 
     Returns
     ------
-    image: PIL image with text .
+    image: nd array .
     """
+    output = image.copy()
+    if type(output) != np.ndarray:
+        raise Exception("image arg is not numpy array")
+    output = Image.fromarray(output)
     text_color = color
     # check if the color is key 
     if type(color) == str:
         # get the color value using the key color
         text_color = DEFAULT_COLORS[color]
     
-    width, height = image.size
-    draw = ImageDraw.Draw(image)
+    width, height = output.size
+    draw = ImageDraw.Draw(output)
     fontSize = size
     if type(size) == str:
         if size in DEFAULT_SIZES:
@@ -48,7 +110,15 @@ def add_text(
                             f"size argument is not valid, make sure it is either integer or in {DEFAULT_SIZES}"
                             )
 
-    font = ImageFont.truetype(fontPath, fontSize)
+    # check if the font is avialble in our DEFAULTS FONTS 
+    if font in DEFAULT_FONTS.keys():
+        # get the color value using the key font
+        font = DEFAULT_FONTS[font]
+    # handle font not found
+    elif not os.path.isfile(font):
+        raise Exception(f'Font path "{font}" not found, make sure it is in {list(DEFAULT_FONTS.keys())} or the path exists.')
+    
+    font = ImageFont.truetype(font, fontSize)
 
     text_width, text_height = get_text_dimensions(text, font)
 
@@ -97,12 +167,11 @@ def add_text(
                 )
 
     draw.text(new_position, text, fill=text_color, font=font)
-
-    return image
+    return np.array(output)
 
 # Draw box arround an object or any
 def add_box(bbox: tuple, 
-        image: Image, 
+        image: np.ndarray, 
         color = DEFAULT_COLORS["green"], 
         labelColor = DEFAULT_COLORS["white"],
         strokeSize = 4, 
@@ -115,7 +184,7 @@ def add_box(bbox: tuple,
     Parameters
     ----------
     bbox: list type contain bounding box in this format (x0, y0, x1, y1).
-    image: Pillow Image datatype.
+    image: nd array.
     color: background color, either in (r, b, g) or choice from DEFAULT_COLORS [white, green, black, yellow, blue].
     labelColor: Label color, either in (r, b, g) format or choice from DEFAULT_COLORS [white, green, black, yellow, blue].
     strokeSize: The stroke size of the rectangle .
@@ -127,7 +196,10 @@ def add_box(bbox: tuple,
     -------
     image: Image with box added
     """
-
+    output = image.copy()
+    if type(output) != np.ndarray:
+        raise Exception("image arg is not numpy array")
+    output = Image.fromarray(output)
     # get the color
     bg_color = color
     # check if the color is key 
@@ -146,8 +218,8 @@ def add_box(bbox: tuple,
         raise Exception("overlayAlpha argument is not valid, make sure it is in 0-255 range")
 
     x0, y0, x1, y1 = bbox
-    draw = ImageDraw.Draw(image)
-    width, height = image.size
+    draw = ImageDraw.Draw(output)
+    width, height = output.size
 
 
     # normal size
@@ -173,7 +245,7 @@ def add_box(bbox: tuple,
         draw.text(text_position, label, fill=text_color, font=font)
 
     # Create a transparent overlay image (RGBA)
-    overlay = Image.new('RGBA', image.size, (255, 255, 255, 0))  # fully transparent
+    overlay = Image.new('RGBA', output.size, (255, 255, 255, 0))  # fully transparent
 
     # Draw a semi-transparent rectangle on the overlay
     overlay_draw = ImageDraw.Draw(overlay)
@@ -181,7 +253,7 @@ def add_box(bbox: tuple,
         overlay_draw.rectangle(bbox, fill=bg_color+(overlayAlpha,))
 
         # Composite the overlay onto the base image
-        image = Image.alpha_composite(image.convert('RGBA'), overlay)
+        output = Image.alpha_composite(output.convert('RGBA'), overlay)
 
     # return the image
-    return image.convert('RGB')
+    return np.array(output)
