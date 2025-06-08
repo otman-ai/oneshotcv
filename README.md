@@ -74,6 +74,8 @@ bottom-left, bottom-center, right-center, left-center
 - [X] Support multiple fonts
 - [X] Support mask with overlay option
 
+## Credits:
+- fonts -> https://www.dafont.com/mtheme.php?id=5
 
 ## © license
 The core of Oneshotcv is licensed under Apache 2.0.
