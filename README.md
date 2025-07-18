@@ -17,15 +17,15 @@ You can add box with its label
 from oneshotcv import Draw
 
 image = cv2.imread("assets/image.jpg")
-bbox  = (100, 100, 400, 400)
+bbox  = (100, 100, 400, 400) # make sure it is top-left-x, top-left-y, bottom-right-x, bottom-right-y
 # draw bbox 
-new_image = Draw.box(bbox, 
+new_image = Draw.add_box(bbox, 
                     image,
                     label="Persone",
                     overlayAlpha=50 # in range of 0-255
                     )
 # save the image
-cv2.imwrite("assets/image_with_bbox.png", new_image)
+cv2.imwrite("image_with_bbox.png", new_image)
 ```
 ![Image with bounding box using OneShotCV](assets/image_with_bbox.png)
 
