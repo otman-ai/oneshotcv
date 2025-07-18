@@ -1,4 +1,5 @@
 from pathlib import Path
+PACKAGE_DIR = Path(__file__).parent
 
 DEFAULT_COLORS = {
     "green": (107, 212, 28),
@@ -11,10 +12,10 @@ DEFAULT_COLORS = {
     }
 
 DEFAULT_FONTS = {
-    "arial": Path(".") / "fonts" / "arial.ttf",
-    "mont": Path(".") / "fonts" / "mont.otf",
-    "nexa": Path(".") / "fonts" / "nexa.ttf",
-    "coolvetica": Path(".") / "fonts" / "coolvetica.otf"
+    "arial":PACKAGE_DIR / "fonts" / "arial.ttf",
+    "mont": PACKAGE_DIR / "fonts" / "mont.otf",
+    "nexa": PACKAGE_DIR / "fonts" / "nexa.ttf",
+    "coolvetica": PACKAGE_DIR / "fonts" / "coolvetica.otf"
 }
 
 DEFAULT_POSITIONS_FACTORS = {
