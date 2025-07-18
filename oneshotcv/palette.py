@@ -1,3 +1,5 @@
+from pathlib import Path
+
 DEFAULT_COLORS = {
     "green": (107, 212, 28),
     "white": (255, 255, 255),
@@ -9,10 +11,10 @@ DEFAULT_COLORS = {
     }
 
 DEFAULT_FONTS = {
-    "arial":"fonts/arial.ttf",
-    "mont":"fonts/mont.otf",
-    "nexa":"fonts/nexa.ttf",
-    "coolvetica":"fonts/coolvetica.otf"
+    "arial": Path(".") / "fonts" / "arial.ttf",
+    "mont": Path(".") / "fonts" / "mont.otf",
+    "nexa": Path(".") / "fonts" / "nexa.ttf",
+    "coolvetica": Path(".") / "fonts" / "coolvetica.otf"
 }
 
 DEFAULT_POSITIONS_FACTORS = {
