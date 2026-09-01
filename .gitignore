@@ -193,3 +193,7 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+# OneShotCV demo / test output
+assets/demo_box.png
+assets/tested_*
+assets/test_*

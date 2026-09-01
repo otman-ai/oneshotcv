@@ -4,27 +4,43 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "oneshotcv"
-version = "0.1"
-description = "OneShotCV is a library for a simplifies visual design and rendering of computer vision tasks such as drawing bounding boxes, masks, labels, etc"
+version = "0.2.0"
+description = "OneShotCV simplifies the visual design and rendering of computer vision tasks such as drawing bounding boxes, masks, labels, keypoints and text."
 authors = [
     {name = "Otman", email = "otmanheddouchai@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.9"
+keywords = ["computer-vision", "opencv", "pillow", "visualization", "bounding-box", "segmentation"]
 dependencies = [
-    "pillow",
-    "opencv-python",
-    "numpy",
-    "pytest",
+    "pillow>=9.2.0",
+    "opencv-python>=4.5",
+    "numpy>=1.21",
 ]
-license = "MIT AND (Apache-2.0 OR BSD-2-Clause)"
-license-files = [
-    "LICENSE",
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Intended Audience :: Developers",
 ]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
 [project.urls]
 "Homepage" = "https://github.com/otman-ai/oneshotcv"
+"Source" = "https://github.com/otman-ai/oneshotcv"
+"Issues" = "https://github.com/otman-ai/oneshotcv/issues"
+
 [tool.setuptools.packages.find]
-where = ["."]  # list of folders that contain the packages (["."] by default)
-include = ["oneshotcv"]  # package names should match these glob patterns (["*"] by default)
-exclude = []  # exclude packages matching these glob patterns (empty by default)
-namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
+where = ["."]
+include = ["oneshotcv*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+oneshotcv = ["fonts/*.ttf", "fonts/*.otf"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,4 +1,4 @@
-pillow
-opencv-python
-numpy
-pytest
+pillow>=9.2.0
+opencv-python>=4.5
+numpy>=1.21
+pytest>=7
